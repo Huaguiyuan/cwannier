@@ -9,7 +9,8 @@
 #include <gsl/gsl_complex.h>
 #include <gsl/gsl_complex_math.h>
 #include <gsl/gsl_matrix.h>
-//#include "bstrlib/bstrlib.h"
+#include <gsl/gsl_errno.h>
+#include "bstrlib/bstrlib.h"
 
 typedef struct {
     int num_rs, num_bands;
@@ -20,11 +21,9 @@ typedef struct {
     gsl_matrix_complex **Hrs;
 } HTightBinding;
 
-/*
 HTightBinding* ExtractHTightBinding(char *filePath);
 
 void FreeHTightBinding(HTightBinding *Hrs);
-*/
 
 void HkRecip(HTightBinding *Hrs, double k[3], gsl_matrix_complex *Hk);
 

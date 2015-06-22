@@ -1,20 +1,49 @@
 #include "HTightBinding.h"
 
-/*
 HTightBinding* ExtractHTightBinding(char *filePath) {
     HTightBinding* Hrs = (HTightBinding *)malloc(sizeof(HTightBinding));
 
     FILE *fp = fopen(filePath, "r");
+    struct bStream *infile = bsopen((bNread)fread, fp);
+    //infile = bread((bNread)fread, fp);
 
-    char *comment = (char *)malloc(500 * sizeof(char));
-    fscanf("%s\n");
+    // Need to initialize a bstring for bsreadln.
+    bstring line = bfromcstr("init");
+    if (line == NULL) {
+        return NULL;
+    }
+
+    // Comment line.
+    int err = bsreadln(line, infile, '\n');
+    if (err == BSTR_ERR) {
+        return NULL;
+    }
+    printf("Comment = %s\n", line->data);
+    // Number of bands.
+    err = bsreadln(line, infile, '\n');
+    if (err == BSTR_ERR) {
+        return NULL;
+    }
+    printf("nb = %s\n", line->data);
+    int num_bands = 0;
+    // Number of ri - rj values.
+    bsreadln(line, infile, '\n');
+    if (err == BSTR_ERR) {
+        return NULL;
+    }
+    printf("nr = %s\n", line->data);
+    int num_rs = 0;
 
     double *ras = (double *)malloc(num_rs * sizeof(double));
     double *rbs = (double *)malloc(num_rs * sizeof(double));
     double *rcs = (double *)malloc(num_rs * sizeof(double));
     double *degen = (double *)malloc(num_rs * sizeof(double));
 
-    gsl_matrix_complex **Hrs = (gsl_matrix_complex **)malloc(num_rs * sizeof(gsl_matrix_complex*));
+    gsl_matrix_complex **Hr_values = (gsl_matrix_complex **)malloc(num_rs * sizeof(gsl_matrix_complex*));
+
+    bsclose(infile);
+
+    return Hrs;
 }
 
 void FreeHTightBinding(HTightBinding *Hrs) {
@@ -25,13 +54,12 @@ void FreeHTightBinding(HTightBinding *Hrs) {
 
     int i;
     for (i = 0; i < Hrs->num_rs; i++) {
-        gsl_matrix_complex_free(Hrs->Hrs[i])
+        gsl_matrix_complex_free(Hrs->Hrs[i]);
     }
     free(Hrs->Hrs);
 
     free(Hrs);
 }
-*/
 
 // Put the value H(k) derived from Hrs into Hk.
 // When HkRecip() is called, Hk should be initialized with all zeros.
