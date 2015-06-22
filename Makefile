@@ -14,12 +14,12 @@ bstrlib.o:
 bstraux.o:
 	$(CC) $(CFLAGS) -c bstrlib/bstraux.c -o bstrlib/bstraux.o
 
-HTightBinding.o: bstrlib.o bstraux.o
+HTightBinding.o: bstrlib/bstrlib.o bstraux.o HTightBinding.c
 	$(CC) $(CFLAGS) -c HTightBinding.c
 
-BandEnergy.o: HTightBinding.o bstrlib.o bstraux.o
+BandEnergy.o: HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o BandEnergy.c
 	$(CC) $(CFLAGS) -c BandEnergy.c
 
-HTightBinding_test.out: HTightBinding.o bstrlib.o bstraux.o
+HTightBinding_test.out: HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o HTightBinding_test.c
 	$(CC) $(CFLAGS) -c HTightBinding_test.c -o HTightBinding_test.o
 	$(CC) HTightBinding_test.o -o HTightBinding_test.out $(OBJFILES) $(LDFLAGS)
