@@ -1,6 +1,6 @@
 [submodule "bstrlib"]
 	path = bstrlib
 	url = https://github.com/websnarf/bstrlib.git
-[submodule "bstring"]
-	path = bstring
-	url = https://github.com/msteinert/bstring.git
+[submodule "ctetra"]
+	path = ctetra
+	url = https://bitbucket.org/tflovorn/ctetra.git

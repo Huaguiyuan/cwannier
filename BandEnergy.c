@@ -1,7 +1,6 @@
-#include "HTightBinding.h"
 #include "BandEnergy.h"
 
-double BandEnergy(HTightBinding *Hrs, double R[3][3], double num_electrons, int n0, double tol) {
+double BandEnergy(double *E_Fermi, HTightBinding *Hrs, double R[3][3], double num_electrons, int n0, double tol) {
     int num_bands = Hrs->num_bands;
     gsl_matrix_complex *Hk = gsl_matrix_complex_alloc(num_bands, num_bands);
     gsl_eigen_herm_workspace *work = gsl_eigen_herm_alloc(num_bands);
@@ -17,7 +16,10 @@ double BandEnergy(HTightBinding *Hrs, double R[3][3], double num_electrons, int 
         gsl_eigen_herm(Hk, energies, work);
     }
     // Calculate band energy.
-    double esum = 0.0;
+    bool use_cache = true;
+    double esum = SumEnergy(E_Fermi, Efn, n0, num_electrons, R, use_cache);
+    printf("esum = %f\n", esum);
+    printf("E_Fermi = %f\n", *E_Fermi);
     // Clean up.
     gsl_eigen_herm_free(work);
     gsl_matrix_complex_free(Hk);
