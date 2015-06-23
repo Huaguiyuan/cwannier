@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -O3 -DHAVE_INLINE
 LDFLAGS=-lgsl -lgslcblas -lm
-OBJFILES=bstrlib/bstrlib.o bstrlib/bstraux.o HTightBinding.o BandEnergy.o ctetra/dos.o ctetra/numstates.o ctetra/weights.o ctetra/sum.o
+OBJFILES=bstrlib/bstrlib.o bstrlib/bstraux.o HTightBinding.o BandEnergy.o ctetra/submesh.o ctetra/dos.o ctetra/numstates.o ctetra/fermi.o ctetra/weights.o ctetra/sum.o
 
 all: bstrlib.o bstraux.o HTightBinding.o BandEnergy.o HTightBinding_test.out BandEnergy_test.out
 

@@ -3,7 +3,7 @@
 int main(int argc, char *argv[]) {
     HTightBinding *Hrs = ExtractHTightBinding("test_data/Fe_soc/Fe_soc_hr.dat");
 
-    double R[3][3] = {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}};
+    gsl_matrix *R = NULL;
     double num_electrons = 1.0;
     int n0 = 8;
     double tol = 1e-6;
