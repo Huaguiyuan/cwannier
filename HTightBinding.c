@@ -6,28 +6,29 @@ void HkRecip(HTightBinding *Hrs, double k[3], gsl_matrix_complex *Hk) {
     int nr = Hrs->num_rs;
     int nb = Hrs->num_bands;
     double ra, rb, rc;
-    gsl_complex weight, ikr, mul, Hr_val, Hk_val, Hk_new;
-    int i, row, col;
-    gsl_matrix_complex *this_Hr;
+    gsl_complex weight, ikr, mul;
+    int i;
+    gsl_matrix_complex *this_Hr = gsl_matrix_complex_alloc(nb, nb);
 
+    // Zero out Hk.
+    gsl_matrix_complex_set_zero(Hk);
+    // Construct H(k) from Hrs.
     for (i = 0; i < nr; i++) {
         ra = Hrs->ras[i];
         rb = Hrs->rbs[i];
         rc = Hrs->rcs[i];
+        // Negligible performance difference between using gsl_complex_rect
+        // and GSL_SET_COMPLEX here.
         weight = gsl_complex_rect(1.0/Hrs->degens[i], 0.0);
         ikr = gsl_complex_rect(0.0, 2.0*M_PI*(k[0]*ra + k[1]*rb + k[2]*rc));
         mul = gsl_complex_mul(weight, gsl_complex_exp(ikr));
-        this_Hr = Hrs->Hrs[i];
-
-        for (row = 0; row < nb; row++) {
-            for (col = 0; col < nb; col++) {
-                Hr_val = gsl_matrix_complex_get(this_Hr, row, col);
-                Hk_val = gsl_matrix_complex_get(Hk, row, col);
-                Hk_new = gsl_complex_add(Hk_val, gsl_complex_mul(mul, Hr_val));
-                gsl_matrix_complex_set(Hk, row, col, Hk_new);
-            }
-        }
+        // Operating on full matrices is about 2x faster than operating on
+        // them element-by-element for 18x18 matrices.
+        gsl_matrix_complex_memcpy(this_Hr, Hrs->Hrs[i]);
+        gsl_matrix_complex_scale(this_Hr, mul);
+        gsl_matrix_complex_add(Hk, this_Hr);
     }
+    gsl_matrix_complex_free(this_Hr);
 }
 
 // Return the matrix H[R] stored in Hrs.
