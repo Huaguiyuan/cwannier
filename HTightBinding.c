@@ -58,7 +58,6 @@ HTightBinding* ExtractHTightBinding(char *filePath) {
 
     FILE *fp = fopen(filePath, "r");
     struct bStream *infile = bsopen((bNread)fread, fp);
-    //infile = bread((bNread)fread, fp);
 
     // Need to initialize a bstring for bsreadln.
     bstring line = bfromcstr("init");
@@ -189,7 +188,9 @@ HTightBinding* ExtractHTightBinding(char *filePath) {
         bstrListDestroy(line_split);
     }
 
+    bdestroy(line);
     bsclose(infile);
+    fclose(fp);
     return Hrs;
 }
 
