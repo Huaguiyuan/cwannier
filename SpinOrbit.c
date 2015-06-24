@@ -96,8 +96,10 @@ void addSOCElems(gsl_matrix_complex *Hr_onsite, double soc_strength, double thet
                 // H_onsite[offset_s:offset_s+9, offset_sp:offset_sp+9] += H_soc[s*9:s*9+9, sp*9:sp*9+9]
                 for (row = 0; row < 9; row++) {
                     for (col = 0; col < 9; col++) {
-                        gsl_complex val = gsl_matrix_complex_get(H_soc, s*9 + row, sp*9 + col);
-                        gsl_matrix_complex_set(Hr_onsite, offset_s + row, offset_sp + col, val);
+                        gsl_complex soc_val = gsl_matrix_complex_get(H_soc, s*9 + row, sp*9 + col);
+                        gsl_complex orig_val = gsl_matrix_complex_get(Hr_onsite, offset_s + row, offset_sp + col);
+                        gsl_complex new_val = gsl_complex_add(orig_val, soc_val);
+                        gsl_matrix_complex_set(Hr_onsite, offset_s + row, offset_sp + col, new_val);
                     }
                 }
             }
@@ -197,7 +199,7 @@ gsl_matrix_complex* RotationMatrix(double theta, double phi) {
     double st = sin(theta / 2.0);
     gsl_complex ip2 = gsl_complex_rect(0.0, phi / 2.0);
     gsl_complex mip2 = gsl_complex_rect(0.0, -phi / 2.0);
-    gsl_matrix_complex *R = gsl_matrix_complex_alloc(2, 2);
+    gsl_matrix_complex *R = gsl_matrix_complex_calloc(2, 2);
 
     gsl_matrix_complex_set(R, 0, 0, gsl_complex_mul_real(gsl_complex_exp(mip2), ct));
     gsl_matrix_complex_set(R, 0, 1, gsl_complex_mul_real(gsl_complex_exp(mip2), -st));
