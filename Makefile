@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-Wall -O3 -DHAVE_INLINE
 LDFLAGS=-lgsl -lgslcblas -lm
-OBJFILES=bstrlib/bstrlib.o bstrlib/bstraux.o ParseSCF.o HTightBinding.o SpinOrbit.o BandEnergy.o ctetra/submesh.o ctetra/dos.o ctetra/numstates.o ctetra/fermi.o ctetra/weights.o ctetra/sum.o ctetra/ecache.o
+OBJFILES=bstrlib/bstrlib.o bstrlib/bstraux.o paths.o ParseSCF.o HTightBinding.o SpinOrbit.o BandEnergy.o ctetra/submesh.o ctetra/dos.o ctetra/numstates.o ctetra/fermi.o ctetra/weights.o ctetra/sum.o ctetra/ecache.o
 
-all: bstrlib.o bstraux.o ParseSCF.o HTightBinding.o SpinOrbit.o BandEnergy.o ParseSCF_test.out HTightBinding_test.out BandEnergy_test.out
+all: bstrlib.o bstraux.o paths.o ParseSCF.o HTightBinding.o SpinOrbit.o BandEnergy.o ParseSCF_test.out HTightBinding_test.out BandEnergy_test.out Anisotropy.out
 
 clean:
 	rm *.o *.out
@@ -14,7 +14,10 @@ bstrlib.o:
 bstraux.o:
 	$(CC) $(CFLAGS) -c bstrlib/bstraux.c -o bstrlib/bstraux.o
 
-ParseSCF.o: bstrlib/bstrlib.o bstraux.o
+paths.o: bstrlib/bstrlib.o bstraux.o paths.c paths.h
+	$(CC) $(CFLAGS) -c paths.c
+
+ParseSCF.o: bstrlib/bstrlib.o bstraux.o ParseSCF.c ParseSCF.h
 	$(CC) $(CFLAGS) -c ParseSCF.c
 
 HTightBinding.o: bstrlib/bstrlib.o bstraux.o HTightBinding.c HTightBinding.h
@@ -37,3 +40,7 @@ HTightBinding_test.out: HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o HTig
 BandEnergy_test.out: BandEnergy.o HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o BandEnergy_test.c
 	$(CC) $(CFLAGS) -c BandEnergy_test.c -o BandEnergy_test.o
 	$(CC) BandEnergy_test.o -o BandEnergy_test.out $(OBJFILES) $(LDFLAGS)
+
+Anisotropy.out: paths.o ParseSCF.o SpinOrbit.o BandEnergy.o HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o Anisotropy.c
+	$(CC) $(CFLAGS) -c Anisotropy.c -o Anisotropy.o
+	$(CC) Anisotropy.o -o Anisotropy.out $(OBJFILES) $(LDFLAGS)

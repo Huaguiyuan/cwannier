@@ -15,11 +15,9 @@ int main(int argc, char *argv[]) {
     double num_electrons = 8.0;
     int n0 = 8;
     bool use_cache = true;
-
-    double tol = 1e-6;
     double E_Fermi = 0.0;
 
-    double energy = BandEnergy(&E_Fermi, Hrs, R, num_electrons, n0, tol, use_cache);
+    double energy = BandEnergy(&E_Fermi, Hrs, R, num_electrons, n0, use_cache);
 
     printf("energy = %f\n", energy);
     printf("E_Fermi = %f\n", E_Fermi);

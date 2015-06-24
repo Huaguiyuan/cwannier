@@ -5,6 +5,9 @@
 // the reciprocal lattice vectors R[i, :] (in units of 2pi/alat).
 int ParseSCF(char *filePath, double *num_electrons, double *alat, gsl_matrix *R) {
     FILE *fp = fopen(filePath, "r");
+    if (fp == NULL) {
+        return CWANNIER_PARSESCF_ERR;
+    }
     struct bStream *infile = bsopen((bNread)fread, fp);
 
     // Need to initialize a bstring for bsreadln.

@@ -1,6 +1,6 @@
 #include "BandEnergy.h"
 
-double BandEnergy(double *E_Fermi, HTightBinding *Hrs, gsl_matrix *R, double num_electrons, int n0, double tol, bool use_cache) {
+double BandEnergy(double *E_Fermi, HTightBinding *Hrs, gsl_matrix *R, double num_electrons, int n0, bool use_cache) {
     int num_bands = Hrs->num_bands;
     // Use GCC nested function to make closure.
     // https://gcc.gnu.org/onlinedocs/gcc/Nested-Functions.html
