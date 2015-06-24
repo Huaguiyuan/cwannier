@@ -27,6 +27,6 @@ void FreeHTightBinding(HTightBinding *Hrs);
 
 void HkRecip(HTightBinding *Hrs, double k[3], gsl_matrix_complex *Hk);
 
-gsl_matrix_complex* HrAtR(HTightBinding *Hrs, double R[3]);
+gsl_matrix_complex* HrAtR(HTightBinding *Hrs, double R[3], double *degen);
 
 #endif // CWANNIER_HTIGHTBINDING_H

@@ -32,7 +32,8 @@ void HkRecip(HTightBinding *Hrs, double k[3], gsl_matrix_complex *Hk) {
 }
 
 // Return the matrix H[R] stored in Hrs.
-gsl_matrix_complex* HrAtR(HTightBinding *Hrs, double R[3]) {
+// Also sets degen equal to the degeneracy value of H[R].
+gsl_matrix_complex* HrAtR(HTightBinding *Hrs, double R[3], double *degen) {
     double eps = 1e-12;
     double ra, rb, rc;
     int nr = Hrs->num_rs;
@@ -43,6 +44,7 @@ gsl_matrix_complex* HrAtR(HTightBinding *Hrs, double R[3]) {
         rb = Hrs->rbs[i];
         rc = Hrs->rcs[i];
         if ((fabs(ra - R[0]) < eps) && (fabs(rb - R[1]) < eps) && (fabs(rc - R[2]) < eps)) {
+            *degen = Hrs->degens[i];
             return Hrs->Hrs[i];
         }
     }
