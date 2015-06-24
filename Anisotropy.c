@@ -20,7 +20,6 @@ int main(int argc, char *argv[]) {
     double phi1 = atof(argv[5]);
     double theta2 = atof(argv[6]);
     double phi2 = atof(argv[7]);
-    printf("finished parsing arguments\n");
     
     char *scf_path = cwannier_data_path(system_name, "wannier", "\0", "scf.out");
     double num_electrons, alat;
@@ -32,11 +31,6 @@ int main(int argc, char *argv[]) {
         return err;
     }
     bcstrfree(scf_path);
-    printf("finished scf\n");
-
-    printf("num_electrons = %f, alat = %f\n", num_electrons, alat);
-    printf("R:\n");
-    gsl_matrix_fprintf(stdout, R, "%f");
 
     char *hr_up_path = cwannier_data_path(system_name, "wannier", system_name, "_up_hr.dat");
     HTightBinding *Hrs_up = ExtractHTightBinding(hr_up_path);
@@ -45,6 +39,8 @@ int main(int argc, char *argv[]) {
     char *hr_dn_path = cwannier_data_path(system_name, "wannier", system_name, "_dn_hr.dat");
     HTightBinding *Hrs_dn = ExtractHTightBinding(hr_dn_path);
     bcstrfree(hr_dn_path);
+
+    printf("Hamiltonian loaded.\n");
 
     HTightBinding *Hrs_soc_1 = HamiltonianWithSOC(soc_strength, theta1, phi1, Hrs_up, Hrs_dn);
     HTightBinding *Hrs_soc_2 = HamiltonianWithSOC(soc_strength, theta2, phi2, Hrs_up, Hrs_dn);

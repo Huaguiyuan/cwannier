@@ -208,5 +208,3 @@ void FreeHTightBinding(HTightBinding *Hrs) {
 
     free(Hrs);
 }
-
-
