@@ -10,12 +10,13 @@ double BandEnergy(double *E_Fermi, HTightBinding *Hrs, gsl_matrix *R, double num
         // Hk and work here versus outside Efn.
         // Allocate here to make Efn thread-safe (as long as called with
         // different energies).
-        gsl_matrix_complex *Hk = gsl_matrix_complex_alloc(num_bands, num_bands);
+        gsl_matrix_complex *Hk = gsl_matrix_complex_calloc(num_bands, num_bands);
         gsl_eigen_herm_workspace *work = gsl_eigen_herm_alloc(num_bands);
         // Set Hk = H(k).
         HkRecip(Hrs, k, Hk);
         // Calculate eigenvalues.
         gsl_eigen_herm(Hk, energies, work);
+        gsl_sort_vector(energies);
         // Clean up.
         gsl_eigen_herm_free(work);
         gsl_matrix_complex_free(Hk);

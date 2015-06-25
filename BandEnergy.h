@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <gsl/gsl_vector.h>
+#include <gsl/gsl_sort_vector.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_eigen.h>
 #include "HTightBinding.h"
