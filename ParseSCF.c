@@ -47,6 +47,7 @@ int ParseSCF(char *filePath, double *num_electrons, double *alat, gsl_matrix *R)
                     substr_index++;
                 }
             }
+            bstrListDestroy(line_split);
         }
         index = binstr(line, 0, nelstr);
         if (index != BSTR_ERR) {
@@ -64,6 +65,7 @@ int ParseSCF(char *filePath, double *num_electrons, double *alat, gsl_matrix *R)
                     substr_index++;
                 }
             }
+            bstrListDestroy(line_split);
         }
         index = binstr(line, 0, b1);
         if (index != BSTR_ERR) {
@@ -108,4 +110,5 @@ void get_b_row(gsl_matrix *R, int row, bstring line) {
             substr_index++;
         }
     }
+    bstrListDestroy(line_split);
 }
