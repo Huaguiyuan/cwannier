@@ -109,7 +109,7 @@ int write_dos_vals(char *outPath, int num_dos, double *Es, double *dos_vals) {
     // Write DOS data.
     int i;
     for (i = 0; i < num_dos; i++) {
-        fprintf(fp, "%f\t%f\n", Es[i], dos_vals[i]);
+        fprintf(fp, "%.10f\t%.10f\n", Es[i], dos_vals[i]);
     }
 
     fclose(fp);
