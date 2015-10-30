@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-Wall -O3 -DHAVE_INLINE
 LDFLAGS=-lgsl -lgslcblas -lm
-OBJFILES=bstrlib/bstrlib.o bstrlib/bstraux.o paths.o ParseSCF.o HTightBinding.o DosValues.o SpinOrbit.o BandEnergy.o ctetra/submesh.o ctetra/dos.o ctetra/numstates.o ctetra/fermi.o ctetra/weights.o ctetra/sum.o ctetra/ecache.o ctetra/tetra.o
+OBJFILES=bstrlib/bstrlib.o bstrlib/bstraux.o paths.o ParseSCF.o HTightBinding.o DosValues.o PartialDosValues.o SpinOrbit.o BandEnergy.o ctetra/submesh.o ctetra/dos.o ctetra/partial.o ctetra/numstates.o ctetra/fermi.o ctetra/weights.o ctetra/sum.o ctetra/ecache.o ctetra/evcache.o ctetra/tetra.o
 
-all: bstrlib.o bstraux.o paths.o ParseSCF.o HTightBinding.o DosValues.o SpinOrbit.o BandEnergy.o ParseSCF_test.out HTightBinding_test.out BandEnergy_test.out Anisotropy.out RunDosValues.out
+all: bstrlib.o bstraux.o paths.o ParseSCF.o HTightBinding.o DosValues.o PartialDosValues.o SpinOrbit.o BandEnergy.o ParseSCF_test.out HTightBinding_test.out BandEnergy_test.out Anisotropy.out RunDosValues.out
 
 clean:
 	rm *.o *.out
@@ -31,6 +31,9 @@ BandEnergy.o: HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o BandEnergy.c B
 
 DosValues.o: HTightBinding.o DosValues.c DosValues.h
 	$(CC) $(CFLAGS) -c DosValues.c
+
+PartialDosValues.o: HTightBinding.o PartialDosValues.c PartialDosValues.h
+	$(CC) $(CFLAGS) -c PartialDosValues.c
 
 ParseSCF_test.out: ParseSCF.o bstrlib/bstrlib.o bstrlib/bstraux.o ParseSCF_test.c
 	$(CC) $(CFLAGS) -c ParseSCF_test.c -o ParseSCF_test.o
