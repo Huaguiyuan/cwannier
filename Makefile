@@ -1,9 +1,9 @@
 CC=gcc
 CFLAGS=-Wall -O3 -DHAVE_INLINE
 LDFLAGS=-lgsl -lgslcblas -lm
-OBJFILES=bstrlib/bstrlib.o bstrlib/bstraux.o paths.o ParseSCF.o HTightBinding.o DosValues.o PartialDosValues.o SpinOrbit.o BandEnergy.o ctetra/submesh.o ctetra/dos.o ctetra/partial.o ctetra/numstates.o ctetra/fermi.o ctetra/weights.o ctetra/sum.o ctetra/ecache.o ctetra/evcache.o ctetra/tetra.o
+OBJFILES=bstrlib/bstrlib.o bstrlib/bstraux.o paths.o ParseSCF.o HTightBinding.o dos_util.o DosValues.o PartialDosValues.o PartialNumValues.o SpinOrbit.o BandEnergy.o ctetra/submesh.o ctetra/dos.o ctetra/partial.o ctetra/numstates.o ctetra/fermi.o ctetra/weights.o ctetra/sum.o ctetra/ecache.o ctetra/evcache.o ctetra/tetra.o
 
-all: bstrlib.o bstraux.o paths.o ParseSCF.o HTightBinding.o DosValues.o PartialDosValues.o SpinOrbit.o BandEnergy.o ParseSCF_test.out HTightBinding_test.out BandEnergy_test.out Anisotropy.out RunDosValues.out
+all: bstrlib.o bstraux.o paths.o ParseSCF.o HTightBinding.o DosValues.o PartialDosValues.o PartialNumValues.o SpinOrbit.o BandEnergy.o ParseSCF_test.out HTightBinding_test.out BandEnergy_test.out Anisotropy.out RunDosValues.out RunPartialDos.out RunPartialNum.out
 
 clean:
 	rm *.o *.out
@@ -29,11 +29,17 @@ SpinOrbit.o: SpinOrbit.c SpinOrbit.h HTightBinding.o
 BandEnergy.o: HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o BandEnergy.c BandEnergy.h
 	$(CC) $(CFLAGS) -c BandEnergy.c
 
+dos_util.o: dos_util.c dos_util.h
+	$(CC) $(CFLAGS) -c dos_util.c
+
 DosValues.o: HTightBinding.o DosValues.c DosValues.h
 	$(CC) $(CFLAGS) -c DosValues.c
 
 PartialDosValues.o: HTightBinding.o PartialDosValues.c PartialDosValues.h
 	$(CC) $(CFLAGS) -c PartialDosValues.c
+
+PartialNumValues.o: HTightBinding.o PartialDosValues.o PartialNumValues.c PartialNumValues.h
+	$(CC) $(CFLAGS) -c PartialNumValues.c
 
 ParseSCF_test.out: ParseSCF.o bstrlib/bstrlib.o bstrlib/bstraux.o ParseSCF_test.c
 	$(CC) $(CFLAGS) -c ParseSCF_test.c -o ParseSCF_test.o
@@ -51,6 +57,14 @@ Anisotropy.out: paths.o ParseSCF.o SpinOrbit.o BandEnergy.o HTightBinding.o bstr
 	$(CC) $(CFLAGS) -c Anisotropy.c -o Anisotropy.o
 	$(CC) Anisotropy.o -o Anisotropy.out $(OBJFILES) $(LDFLAGS)
 
-RunDosValues.out: HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o DosValues.o RunDosValues.c
+RunDosValues.out: HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o DosValues.o dos_util.o RunDosValues.c
 	$(CC) $(CFLAGS) -c RunDosValues.c -o RunDosValues.o
 	$(CC) RunDosValues.o -o RunDosValues.out $(OBJFILES) $(LDFLAGS)
+
+RunPartialDos.out: HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o PartialDosValues.o dos_util.o RunPartialDos.c
+	$(CC) $(CFLAGS) -c RunPartialDos.c -o RunPartialDos.o
+	$(CC) RunPartialDos.o -o RunPartialDos.out $(OBJFILES) $(LDFLAGS)
+
+RunPartialNum.out: HTightBinding.o bstrlib/bstrlib.o bstrlib/bstraux.o PartialNumValues.o dos_util.o RunPartialNum.c
+	$(CC) $(CFLAGS) -c RunPartialNum.c -o RunPartialNum.o
+	$(CC) RunPartialNum.o -o RunPartialNum.out $(OBJFILES) $(LDFLAGS)
