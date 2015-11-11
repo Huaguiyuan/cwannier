@@ -3,7 +3,7 @@ CFLAGS=-Wall -O3 -DHAVE_INLINE
 LDFLAGS=-lgsl -lgslcblas -lm
 OBJFILES=bstrlib/bstrlib.o bstrlib/bstraux.o paths.o ParseSCF.o HTightBinding.o dos_util.o DosValues.o PartialDosValues.o PartialNumValues.o SpinOrbit.o BandEnergy.o ctetra/submesh.o ctetra/dos.o ctetra/partial.o ctetra/numstates.o ctetra/fermi.o ctetra/weights.o ctetra/sum.o ctetra/ecache.o ctetra/evcache.o ctetra/tetra.o
 
-all: bstrlib.o bstraux.o paths.o ParseSCF.o HTightBinding.o DosValues.o PartialDosValues.o PartialNumValues.o SpinOrbit.o BandEnergy.o ParseSCF_test.out HTightBinding_test.out BandEnergy_test.out Anisotropy.out RunDosValues.out RunPartialDos.out RunPartialNum.out
+all: bstrlib.o bstraux.o paths.o ParseSCF.o HTightBinding.o DosValues.o PartialDosValues.o PartialNumValues.o SpinOrbit.o BandEnergy.o dos_util.o ParseSCF_test.out HTightBinding_test.out BandEnergy_test.out Anisotropy.out RunDosValues.out RunPartialDos.out RunPartialNum.out
 
 clean:
 	rm *.o *.out
