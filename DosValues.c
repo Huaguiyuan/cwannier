@@ -23,10 +23,10 @@ double* DosValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double *
     }
     // Calculate DOS values.
     if (all_Es) {
-        double *dos_vals = Tetra_DosList(Efn, num_k_per_dim, num_bands, R, Es, num_dos);
+        double *dos_vals = Tetra_AllDosList(Efn, num_k_per_dim, num_bands, R, Es, num_dos);
         return dos_vals;
     } else {
-        double *dos_vals = Tetra_AllDosList(Efn, num_k_per_dim, num_bands, R, Es, num_dos);
+        double *dos_vals = Tetra_DosList(Efn, num_k_per_dim, num_bands, R, Es, num_dos);
         return dos_vals;
     }
 }
