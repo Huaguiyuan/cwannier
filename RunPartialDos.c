@@ -6,9 +6,9 @@
 int write_pdos_vals(char *outPath, int num_bands, int num_dos, double *Es, double **dos_vals);
 
 int main(int argc, char *argv[]) {
-    if (argc < 11) {
-        printf("Usage: RunPartialDos.out 'wannier_hr_path' 'out_path' 'start_energy' 'stop_energy' 'num_dos' 'sigma' 'num_k_per_dim' 'b_1_vec' 'b_2_vec' 'b_3_vec'\n");
-        printf("Example: RunPartialDos.out 'Fe_up_hr.dat' 'Fe_up_dos' '-5.0' '5.0' '500' '0.001' '8' '1.0 0.0 0.0' '0.0 1.0 0.0' '0.0 0.0 1.0'\n");
+    if (argc < 13) {
+        printf("Usage: RunPartialDos.out 'wannier_hr_path' 'out_path' 'start_energy' 'stop_energy' 'num_dos' 'sigma' 'na' 'nb' 'nc' 'b_1_vec' 'b_2_vec' 'b_3_vec'\n");
+        printf("Example: RunPartialDos.out 'Fe_up_hr.dat' 'Fe_up_dos' '-5.0' '5.0' '500' '0.001' '8' '8' '8' '1.0 0.0 0.0' '0.0 1.0 0.0' '0.0 0.0 1.0'\n");
         return 2;
     }
     // Parse arguments.
@@ -18,8 +18,10 @@ int main(int argc, char *argv[]) {
     double stop_energy = atof(argv[4]);
     int num_dos = atoi(argv[5]);
     double sigma = atof(argv[6]);
-    int num_k_per_dim = atoi(argv[7]);
-    gsl_matrix *R = parse_R_from_bs(argv[8], argv[9], argv[10]);
+    int na = atoi(argv[7]);
+    int nb = atoi(argv[8]);
+    int nc = atoi(argv[9]);
+    gsl_matrix *R = parse_R_from_bs(argv[10], argv[11], argv[12]);
 
     // Set up data.
     HTightBinding *Hrs = ExtractHTightBinding(hr_path);
@@ -32,7 +34,7 @@ int main(int argc, char *argv[]) {
 
     printf("about to calculate DOS\n");
     // Calculate DOS.
-    double **dos_vals = PartialDosValues(Hrs, R, num_k_per_dim, sigma, &Es, num_dos);
+    double **dos_vals = PartialDosValues(Hrs, R, na, nb, nc, sigma, &Es, num_dos);
     printf("DOS calculation finished\n");
 
     // Write out DOS.

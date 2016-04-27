@@ -7,13 +7,13 @@ void print_usage();
 int write_dos_vals(char *outPath, int num_dos, double *Es, double *dos_vals, int calc_deriv, double *dos_deriv_vals, double fermi, double dos_fermi, double dos_deriv_fermi);
 
 void print_usage() {
-    printf("Usage: RunDosValues.out 'wannier_hr_path' 'out_path' 'start_energy' 'stop_energy' 'num_dos' 'num_k_per_dim' 'b_1_vec' 'b_2_vec' 'b_3_vec' [calc_deriv] [num_electrons (required if calc_deriv == 1)]\n");
-    printf("Example: RunDosValues.out 'Fe_up_hr.dat' 'Fe_up_dos' '-5.0' '5.0' '500' '8' '1.0 0.0 0.0' '0.0 1.0 0.0' '0.0 0.0 1.0'\n");
-    printf("OR: RunDosValues.out 'Fe_up_hr.dat' 'Fe_up_dos' '-5.0' '5.0' '500' '8' '1.0 0.0 0.0' '0.0 1.0 0.0' '0.0 0.0 1.0' '1' '1.0'\n");
+    printf("Usage: RunDosValues.out 'wannier_hr_path' 'out_path' 'start_energy' 'stop_energy' 'num_dos' 'na' 'nb' 'nc' 'b_1_vec' 'b_2_vec' 'b_3_vec' [calc_deriv] [num_electrons (required if calc_deriv == 1)]\n");
+    printf("Example: RunDosValues.out 'Fe_up_hr.dat' 'Fe_up_dos' '-5.0' '5.0' '500' '8' '8' '8' '1.0 0.0 0.0' '0.0 1.0 0.0' '0.0 0.0 1.0'\n");
+    printf("OR: RunDosValues.out 'Fe_up_hr.dat' 'Fe_up_dos' '-5.0' '5.0' '500' '8' '8' '8' '1.0 0.0 0.0' '0.0 1.0 0.0' '0.0 0.0 1.0' '1' '1.0'\n");
 }
 
 int main(int argc, char *argv[]) {
-    if (argc < 10) {
+    if (argc < 12) {
         print_usage();
         return 2;
     }
@@ -23,18 +23,20 @@ int main(int argc, char *argv[]) {
     double start_energy = atof(argv[3]);
     double stop_energy = atof(argv[4]);
     int num_dos = atoi(argv[5]);
-    int num_k_per_dim = atoi(argv[6]);
-    gsl_matrix *R = parse_R_from_bs(argv[7], argv[8], argv[9]);
+    int na = atoi(argv[6]);
+    int nb = atoi(argv[7]);
+    int nc = atoi(argv[8]);
+    gsl_matrix *R = parse_R_from_bs(argv[9], argv[10], argv[11]);
     int calc_deriv = 0;
     double num_electrons = 0.0;
-    if (argc > 10) {
-        calc_deriv = atoi(argv[10]);
-        if (calc_deriv && (argc < 12)) {
+    if (argc > 12) {
+        calc_deriv = atoi(argv[12]);
+        if (calc_deriv && (argc < 14)) {
             print_usage();
             return 2;
         }
         if (calc_deriv) {
-            num_electrons = atof(argv[11]);
+            num_electrons = atof(argv[13]);
         }
     }
 
@@ -53,11 +55,11 @@ int main(int argc, char *argv[]) {
 
     if (calc_deriv) {
         bool all_Es = true;
-        dos_vals = DosValues(Hrs, R, num_k_per_dim, Es, num_dos, all_Es);
-        dos_deriv_vals = DosEnergyDerivValues(Hrs, R, num_k_per_dim, Es, num_dos, num_electrons, &fermi, &dos_fermi, &dos_deriv_fermi);
+        dos_vals = DosValues(Hrs, R, na, nb, nc, Es, num_dos, all_Es);
+        dos_deriv_vals = DosEnergyDerivValues(Hrs, R, na, nb, nc, Es, num_dos, num_electrons, &fermi, &dos_fermi, &dos_deriv_fermi);
     } else {
         bool all_Es = false;
-        dos_vals = DosValues(Hrs, R, num_k_per_dim, Es, num_dos, all_Es);
+        dos_vals = DosValues(Hrs, R, na, nb, nc, Es, num_dos, all_Es);
     }
 
     // Write out DOS.

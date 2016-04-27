@@ -10,7 +10,7 @@
 #include "HTightBinding.h"
 #include "ctetra/partial.h"
 
-double** PartialDosValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double sigma, double **Es, double num_dos);
+double** PartialDosValues(HTightBinding *Hrs, gsl_matrix *R, int na, int nb, int nc, double sigma, double **Es, double num_dos);
 
 void sort_evals_evecs(gsl_vector *energies, gsl_matrix_complex *evecs, int num_bands);
 

@@ -1,6 +1,6 @@
 #include "PartialNumValues.h"
 
-double** PartialNumValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double num_total_electrons, double **Es, double num_E, double *E_Fermi, double **num_states_Fermi) {
+double** PartialNumValues(HTightBinding *Hrs, gsl_matrix *R, int na, int nb, int nc, double num_total_electrons, double **Es, double num_E, double *E_Fermi, double **num_states_Fermi) {
     int num_bands = Hrs->num_bands;
     // Use GCC nested function to make closure.
     // https://gcc.gnu.org/onlinedocs/gcc/Nested-Functions.html
@@ -23,6 +23,6 @@ double** PartialNumValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, 
         gsl_matrix_complex_free(Hk);
     }
     // Calculate num values and E_Fermi.
-    double **num_vals = partial_num_states(UEfn, num_k_per_dim, num_bands, num_total_electrons, R, Es, num_E, E_Fermi, num_states_Fermi);
+    double **num_vals = partial_num_states(UEfn, na, nb, nc, num_bands, num_total_electrons, R, Es, num_E, E_Fermi, num_states_Fermi);
     return num_vals;
 }

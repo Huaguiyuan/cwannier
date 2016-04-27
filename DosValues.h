@@ -9,8 +9,8 @@
 #include "HTightBinding.h"
 #include "ctetra/dos.h"
 
-double* DosValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double *Es, double num_dos, bool all_Es);
+double* DosValues(HTightBinding *Hrs, gsl_matrix *R, int na, int nb, int nc, double *Es, double num_dos, bool all_Es);
 
-double* DosEnergyDerivValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double *Es, int num_dos, double num_electrons, double *fermi, double *dos_fermi, double *dos_deriv_fermi);
+double* DosEnergyDerivValues(HTightBinding *Hrs, gsl_matrix *R, int na, int nb, int nc, double *Es, int num_dos, double num_electrons, double *fermi, double *dos_fermi, double *dos_deriv_fermi);
 
 #endif // CWANNIER_DOS_VALUES_H

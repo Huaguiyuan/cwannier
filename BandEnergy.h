@@ -10,6 +10,6 @@
 #include "HTightBinding.h"
 #include "ctetra/sum.h"
 
-double BandEnergy(double *E_Fermi, HTightBinding *Hrs, gsl_matrix *R, double num_electrons, int n0, bool use_cache);
+double BandEnergy(double *E_Fermi, HTightBinding *Hrs, gsl_matrix *R, double num_electrons, int na, int nb, int nc, bool use_cache);
 
 #endif // CWANNIER_BAND_ENERGY

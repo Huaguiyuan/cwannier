@@ -6,8 +6,8 @@
 int write_pnum_vals(char *outPath, int num_bands, int num_E, double *Es, double **num_vals, double E_Fermi, double *num_Fermi_vals);
 
 int main(int argc, char *argv[]) {
-    if (argc < 11) {
-        printf("Usage: RunPartialNum.out 'wannier_hr_path' 'out_path' 'start_energy' 'stop_energy' 'num_E' 'num_electrons' 'num_k_per_dim' 'b_1_vec' 'b_2_vec' 'b_3_vec'\n");
+    if (argc < 13) {
+        printf("Usage: RunPartialNum.out 'wannier_hr_path' 'out_path' 'start_energy' 'stop_energy' 'num_E' 'num_electrons' 'na' 'nb' 'nc' 'b_1_vec' 'b_2_vec' 'b_3_vec'\n");
         printf("Example: RunPartialNum.out 'Fe_up_hr.dat' 'Fe_up_dos' '-5.0' '5.0' '500' '1.0' '8' '1.0 0.0 0.0' '0.0 1.0 0.0' '0.0 0.0 1.0'\n");
         return 2;
     }
@@ -18,8 +18,10 @@ int main(int argc, char *argv[]) {
     double stop_energy = atof(argv[4]);
     int num_E = atoi(argv[5]);
     double num_electrons = atof(argv[6]);
-    int num_k_per_dim = atoi(argv[7]);
-    gsl_matrix *R = parse_R_from_bs(argv[8], argv[9], argv[10]);
+    int na = atoi(argv[7]);
+    int nb = atoi(argv[8]);
+    int nc = atoi(argv[9]);
+    gsl_matrix *R = parse_R_from_bs(argv[10], argv[11], argv[12]);
 
     // Set up data.
     HTightBinding *Hrs = ExtractHTightBinding(hr_path);
@@ -34,7 +36,7 @@ int main(int argc, char *argv[]) {
 
     printf("about to calculate num\n");
     // Calculate n(E).
-    double **num_vals = PartialNumValues(Hrs, R, num_k_per_dim, num_electrons, &Es, num_E, &E_Fermi, &num_Fermi_vals);
+    double **num_vals = PartialNumValues(Hrs, R, na, nb, nc, num_electrons, &Es, num_E, &E_Fermi, &num_Fermi_vals);
     printf("num calculation finished\n");
 
     // Write out n(E).

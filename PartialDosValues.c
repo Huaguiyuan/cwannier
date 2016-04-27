@@ -1,6 +1,6 @@
 #include "PartialDosValues.h"
 
-double** PartialDosValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double sigma, double **Es, double num_dos) {
+double** PartialDosValues(HTightBinding *Hrs, gsl_matrix *R, int na, int nb, int nc, double sigma, double **Es, double num_dos) {
     int num_bands = Hrs->num_bands;
     // Use GCC nested function to make closure.
     // https://gcc.gnu.org/onlinedocs/gcc/Nested-Functions.html
@@ -23,7 +23,7 @@ double** PartialDosValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, 
         gsl_matrix_complex_free(Hk);
     }
     // Calculate DOS values.
-    double **dos_vals = Gauss_PartialDosList(UEfn, num_k_per_dim, sigma, num_bands, R, Es, num_dos);
+    double **dos_vals = Gauss_PartialDosList(UEfn, na, nb, nc, sigma, num_bands, R, Es, num_dos);
     return dos_vals;
 }
 

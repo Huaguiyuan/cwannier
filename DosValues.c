@@ -1,6 +1,6 @@
 #include "DosValues.h"
 
-double* DosValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double *Es, double num_dos, bool all_Es) {
+double* DosValues(HTightBinding *Hrs, gsl_matrix *R, int na, int nb, int nc, double *Es, double num_dos, bool all_Es) {
     int num_bands = Hrs->num_bands;
     // Use GCC nested function to make closure.
     // https://gcc.gnu.org/onlinedocs/gcc/Nested-Functions.html
@@ -23,15 +23,15 @@ double* DosValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double *
     }
     // Calculate DOS values.
     if (all_Es) {
-        double *dos_vals = Tetra_AllDosList(Efn, num_k_per_dim, num_bands, R, Es, num_dos);
+        double *dos_vals = Tetra_AllDosList(Efn, na, nb, nc, num_bands, R, Es, num_dos);
         return dos_vals;
     } else {
-        double *dos_vals = Tetra_DosList(Efn, num_k_per_dim, num_bands, R, Es, num_dos);
+        double *dos_vals = Tetra_DosList(Efn, na, nb, nc, num_bands, R, Es, num_dos);
         return dos_vals;
     }
 }
 
-double* DosEnergyDerivValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double *Es, int num_dos, double num_electrons, double *fermi, double *dos_fermi, double *dos_deriv_fermi) {
+double* DosEnergyDerivValues(HTightBinding *Hrs, gsl_matrix *R, int na, int nb, int nc, double *Es, int num_dos, double num_electrons, double *fermi, double *dos_fermi, double *dos_deriv_fermi) {
     int num_bands = Hrs->num_bands;
     // Use GCC nested function to make closure.
     // https://gcc.gnu.org/onlinedocs/gcc/Nested-Functions.html
@@ -53,6 +53,6 @@ double* DosEnergyDerivValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_di
         gsl_matrix_complex_free(Hk);
     }
     // Calculate DOS values.
-    double *dos_deriv_vals = Tetra_DosEnergyDerivList(Efn, num_k_per_dim, num_bands, R, Es, num_dos, num_electrons, fermi, dos_fermi, dos_deriv_fermi);
+    double *dos_deriv_vals = Tetra_DosEnergyDerivList(Efn, na, nb, nc, num_bands, R, Es, num_dos, num_electrons, fermi, dos_fermi, dos_deriv_fermi);
     return dos_deriv_vals;
 }

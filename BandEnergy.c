@@ -1,6 +1,6 @@
 #include "BandEnergy.h"
 
-double BandEnergy(double *E_Fermi, HTightBinding *Hrs, gsl_matrix *R, double num_electrons, int n0, bool use_cache) {
+double BandEnergy(double *E_Fermi, HTightBinding *Hrs, gsl_matrix *R, double num_electrons, int na, int nb, int nc, bool use_cache) {
     int num_bands = Hrs->num_bands;
     // Use GCC nested function to make closure.
     // https://gcc.gnu.org/onlinedocs/gcc/Nested-Functions.html
@@ -22,7 +22,7 @@ double BandEnergy(double *E_Fermi, HTightBinding *Hrs, gsl_matrix *R, double num
         gsl_matrix_complex_free(Hk);
     }
     // Calculate band energy.
-    double esum = SumEnergy(E_Fermi, Efn, n0, num_bands, num_electrons, R, use_cache);
+    double esum = SumEnergy(E_Fermi, Efn, na, nb, nc, num_bands, num_electrons, R, use_cache);
     printf("esum = %f\n", esum);
     printf("E_Fermi = %f\n", *E_Fermi);
 

@@ -8,6 +8,6 @@
 #include "PartialDosValues.h"
 #include "ctetra/sum.h"
 
-double** PartialNumValues(HTightBinding *Hrs, gsl_matrix *R, int num_k_per_dim, double num_total_electrons, double **Es, double num_E, double *E_Fermi, double **num_states_Fermi);
+double** PartialNumValues(HTightBinding *Hrs, gsl_matrix *R, int na, int nb, int nc, double num_total_electrons, double **Es, double num_E, double *E_Fermi, double **num_states_Fermi);
 
 #endif //CWANNIER_PARTIALNUMVALUES_H
