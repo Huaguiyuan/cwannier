@@ -3,4 +3,4 @@
 	url = https://github.com/websnarf/bstrlib.git
 [submodule "ctetra"]
 	path = ctetra
-	url = https://bitbucket.org/tflovorn/ctetra.git
+	url = https://github.com/tflovorn/ctetra.git
