@@ -124,8 +124,8 @@ gsl_matrix_complex* onSiteSOC_SpinZ() {
             {gsl_complex_rect(0.5, 0.0), 2, 1}, {gsl_complex_rect(0.5, 0.0), 8, 6},
             {gsl_complex_rect(0.0, 0.5), 7, 6}, {gsl_complex_rect(0.0, 0.5), 1, 3},
             {gsl_complex_rect(0.0, 0.5), 5, 8}, {gsl_complex_rect(0.5, 0.0), 7, 5},
-            {gsl_complex_rect(0.0, -sqrt(3)), 6, 4}, {gsl_complex_rect(-sqrt(3), 0.0), 4, 5},
-            {gsl_complex_rect(0.0, sqrt(3)), 4, 6}, {gsl_complex_rect(sqrt(3), 0.0), 5, 4}};
+            {gsl_complex_rect(0.0, -sqrt(3)/2.0), 6, 4}, {gsl_complex_rect(-sqrt(3)/2.0, 0.0), 4, 5},
+            {gsl_complex_rect(0.0, sqrt(3)/2.0), 4, 6}, {gsl_complex_rect(sqrt(3)/2.0, 0.0), 5, 4}};
 
     // Initialize socMatrix to 0, then set specified elements.
     gsl_matrix_complex *socMatrix = gsl_matrix_complex_calloc(18, 18);
